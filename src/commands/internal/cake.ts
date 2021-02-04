@@ -93,13 +93,12 @@ const Cake = ({ botClient }: Context): Command => ({
                     .map((data) => {
                         const index = mappedData.indexOf(data)
                         if (index <= 10) {
-                            const tag =
-                                botClient.users.cache.find(
-                                    (u) => u.id == data.id
-                                )?.tag ?? "Unknown User"
-                            return `${index + 1}. ${tag} - ${
-                                data.data.cakeCount
-                            } cakes`
+                            const user = botClient.users.cache.find(
+                                (u) => u.id == data.id
+                            )
+                            return `${index + 1}. ${
+                                user?.tag ?? "Unknown User"
+                            } - ${data.data.cakeCount} cakes`
                         } else {
                             return null
                         }
@@ -130,7 +129,7 @@ const Cake = ({ botClient }: Context): Command => ({
                         "The people with the most cakes!",
                         [
                             {
-                                name: "Cakes!",
+                                name: "test",
                                 value: md.join("\n"),
                                 inline: false,
                             },
