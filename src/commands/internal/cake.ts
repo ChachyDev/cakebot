@@ -85,18 +85,21 @@ const Cake = ({ botClient }: Context): Command => ({
                             data: inMemoryDB.users[user],
                         }
                     })
-                    .sort((user) => user.data.cakeCount)
+                    .sort((itemOne, itemTwo) => {
+                        return itemTwo.data.cakeCount - itemOne.data.cakeCount
+                    })
 
                 const md = mappedData
                     .map((data) => {
                         const index = mappedData.indexOf(data)
                         if (index <= 10) {
-                            const user = botClient.users.cache.find(
-                                (u) => u.id == data.id
-                            )
-                            return `${index + 1}. ${
-                                user?.tag ?? "Unknown User"
-                            } - ${data.data.cakeCount} cakes`
+                            const tag =
+                                botClient.users.cache.find(
+                                    (u) => u.id == data.id
+                                )?.tag ?? "Unknown User"
+                            return `${index + 1}. ${tag} - ${
+                                data.data.cakeCount
+                            } cakes`
                         } else {
                             return null
                         }
@@ -127,7 +130,7 @@ const Cake = ({ botClient }: Context): Command => ({
                         "The people with the most cakes!",
                         [
                             {
-                                name: "test",
+                                name: "Cakes!",
                                 value: md.join("\n"),
                                 inline: false,
                             },
